@@ -619,9 +619,9 @@
 <div class="xm-scroll scroll-slider" data-type="scroll" data-id="xrg5saq5nz" >
 <div class="slick-slider slick-initialized" dir="ltr">
 <div class="slick-list">
-<div class="slick-track">
+<div class="slick-end">
 
-<div style="outline:none" data-index="0" class="slick-slide slick-active slick-current" tabindex="-1" aria-hidden="false">
+<div style="outline:none" data-index="0" class="slick-slide" tabindex="-1" aria-hidden="false">
 <div>
 <div class="slide-item" tabindex="-1" style="width:100%;display:inline-block">
 <picture class="xm-picture slide-img">
@@ -711,131 +711,38 @@
 </main>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<script src="./main.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
+            const lazyImages = document.querySelectorAll("img[data-src]");
 
-        /** ============================================================
-         *  1. Lazy Load Inteligente com IntersectionObserver
-         * ============================================================ */
-        const lazyImages = document.querySelectorAll("img[data-src]");
+            // Função que carrega a imagem substituindo data-src por src
+            const loadImage = (img) => {
+                const src = img.getAttribute("data-src");
+                if (!src) return;
+                img.src = src;
+                img.removeAttribute("data-src");
+            };
 
-        const loadImage = (img) => {
-            const src = img.getAttribute("data-src");
-            if (!src) return;
-            img.src = src;
-            img.removeAttribute("data-src");
-        };
-
-        if ("IntersectionObserver" in window) {
-            const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        loadImage(entry.target);
-                        obs.unobserve(entry.target);
-                    }
+            // Se o navegador suporta IntersectionObserver (modo eficiente)
+            if ("IntersectionObserver" in window) {
+                const observer = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            loadImage(entry.target);
+                            obs.unobserve(entry.target);
+                        }
+                    });
                 });
-            });
-            lazyImages.forEach(img => observer.observe(img));
-        } else {
-            lazyImages.forEach(img => loadImage(img));
-        }
 
-        /** ============================================================
-         *  2. Controle de Cores, Slides e Descrições
-         * ============================================================ */
-        const colorOptions = Array.from(document.querySelectorAll(".text-box .flex-item"));
-        const slides = Array.from(document.querySelectorAll(".slick-slider .slick-slide"));
-        const descriptions = Array.from(document.querySelectorAll(".div79 .xm-text"));
-        const mainImage = document.querySelector(".image60 img");
-
-        // Nome das cores e imagens correspondentes
-        const colorNames = ["Dusk Purple", "Mint Green", "Midnight Black"];
-        const colorImages = [
-            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15c-5g/pc/xiaomi3bjt_pc1.webp",
-            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15c-5g/pc/xiaomi3bjt_pc2.webp",
-            "https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15c-5g/pc/xiaomi3bjt_pc3.webp"
-        ];
-
-        // Função: verifica se Slick está disponível
-        const slickAvailable = () => window.jQuery && typeof window.jQuery.fn.slick === "function";
-
-        // Função: muda o slide (via Slick ou fallback)
-        const activateSlide = (index) => {
-            if (slickAvailable()) {
-                try {
-                    const $slider = window.jQuery(".slick-slider");
-                    if ($slider && $slider.length) {
-                        $slider.slick("slickGoTo", index);
-                        return;
-                    }
-                } catch (e) {
-                    console.warn("Erro usando Slick API, fallback:", e);
-                }
+                lazyImages.forEach(img => observer.observe(img));
             }
-
-            // Fallback manual (sem slick)
-            slides.forEach((slide, i) => {
-                slide.classList.toggle("slick-current", i === index);
-                slide.classList.toggle("slick-active", i === index);
-                slide.setAttribute("aria-hidden", i === index ? "false" : "true");
-                slide.setAttribute("tabindex", i === index ? "0" : "-1");
-                slide.style.opacity = i === index ? "1" : "0";
-                slide.style.pointerEvents = i === index ? "auto" : "none";
-                slide.style.transition = "opacity 300ms ease";
-            });
-        };
-
-        // Função: atualiza estado ativo (cor, texto, imagem)
-        const setActiveState = (index) => {
-            colorOptions.forEach((opt, i) => {
-                opt.classList.toggle("text_active", i === index);
-                opt.setAttribute("aria-selected", i === index ? "true" : "false");
-            });
-
-            descriptions.forEach((desc, i) => {
-                desc.classList.toggle("text_active", i === index);
-                desc.setAttribute("aria-hidden", i === index ? "false" : "true");
-            });
-
-            // Atualiza imagem principal se existir
-            if (mainImage && colorImages[index]) {
-                mainImage.setAttribute("src", colorImages[index]);
+            // Caso não suporte (modo simples, carrega tudo)
+            else {
+                lazyImages.forEach(img => loadImage(img));
             }
-        };
-
-        // Estado inicial
-        let currentIndex = slides.findIndex(s => s.classList.contains("slick-current") || s.classList.contains("slick-active"));
-        if (currentIndex < 0) currentIndex = 0;
-        activateSlide(currentIndex);
-        setActiveState(currentIndex);
-
-        // Clique nas opções de cor
-        colorOptions.forEach((opt, idx) => {
-            opt.addEventListener("click", (ev) => {
-                ev.preventDefault();
-                activateSlide(idx);
-                setActiveState(idx);
-            });
-
-            opt.addEventListener("keydown", (ev) => {
-                if (ev.key === "Enter" || ev.key === " ") {
-                    ev.preventDefault();
-                    opt.click();
-                }
-            });
         });
-
-        // Se Slick for iniciado depois, sincroniza eventos
-        if (slickAvailable()) {
-            try {
-                const $slider = window.jQuery(".slick-slider");
-                $slider.on("afterChange", (event, slick, currentSlide) => {
-                    setActiveState(currentSlide);
-                });
-            } catch (e) { }
-        }
-    });
 </script>
 
 </body>
