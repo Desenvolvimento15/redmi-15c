@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-<title>REDMI 15C 5G </title>
+<title>REDMI 15C 5G</title>
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="title" content="REDMI 15C 5G" />
 
@@ -181,8 +181,8 @@
 
 <div class="xm-scroll scrollAuto" data-type="scroll" data-id="b9j32n0dsg" style="transform:translate(0px, 0px)">
 <div class="slick-slider slick-initialized" dir="ltr">
-<div class="slick-list">
-<div class="slick-track">
+
+
 
 <div data-index="0" class="slick-slide slick-active slick-current" tabindex="-1" aria-hidden="false">
 <div><img class="lazy"data-src="https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15c-5g/pc/xiaomi3bjt_pc1.webp" alt="" tabindex="-1" style="width:100%;display:inline-block" />
@@ -198,8 +198,8 @@
 <div><img class="lazy" data-src="https://i02.appmifile.com/mi-com-product/fly-birds/redmi-15c-5g/pc/xiaomi3bjt_pc3.webp" alt="" tabindex="-1" style="width:100%;display:inline-block" />
 </div>
 </div>
-</div>
-</div>
+
+
 
 <ul style="display:block" class="slick-dots">
 <li class="slick-active"><button aria-hidden="true" tabindex="-1"></button></li>
@@ -712,38 +712,6 @@
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="./main.js"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-            const lazyImages = document.querySelectorAll("img[data-src]");
-
-            // Função que carrega a imagem substituindo data-src por src
-            const loadImage = (img) => {
-                const src = img.getAttribute("data-src");
-                if (!src) return;
-                img.src = src;
-                img.removeAttribute("data-src");
-            };
-
-            // Se o navegador suporta IntersectionObserver (modo eficiente)
-            if ("IntersectionObserver" in window) {
-                const observer = new IntersectionObserver((entries, obs) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            loadImage(entry.target);
-                            obs.unobserve(entry.target);
-                        }
-                    });
-                });
-
-                lazyImages.forEach(img => observer.observe(img));
-            }
-            // Caso não suporte (modo simples, carrega tudo)
-            else {
-                lazyImages.forEach(img => loadImage(img));
-            }
-        });
-</script>
 
 </body>
 </html>
