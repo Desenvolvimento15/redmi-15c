@@ -33,9 +33,7 @@ body > img {
   top: -0.6em;
   left: 0.6em;
 }
-.xm-blur {
-  opacity: 0.3 !important;
-}
+
 .hide {
   display: none !important;
 }
@@ -241,9 +239,6 @@ html[data-mi-dir="rtl"] #root-chunk,
 }
 .xm-page-area > main {
   width: 100% !important;
-}
-.mi-bg-color {
-  background-color: #fff;
 }
 
 .th .xm-text,
