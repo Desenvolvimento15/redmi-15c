@@ -66,6 +66,7 @@ $(".slick-end").slick({
             slidesToShow: 1,
             slidesToScroll: 1,
             infinite: true,
+            fade: true,
             dots: false,       // NÃO criar dots automáticos — usaremos os do HTML
             arrows: false,     // NÃO usar setas internas
             autoplay: true,
